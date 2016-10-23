@@ -5,16 +5,16 @@
 </dl>
 <ul>
 	<li>Job: {{run.job.name}}</li>
-	<li>Started: {{run.start}}</li>
+	<li>Started: {{run.start | date:'medium'}}</li>
 	<li ng-hide="run.end">This job is still running</li>
-	<li ng-show="run.end">Ended: {{run.end}}</li>
+	<li ng-show="run.end">Ended: {{run.end | date:'medium'}}</li>
 	<li ng-hide="run.results">There don't seem to be any results.</li>
 	<li ng-show="run.results">Results:
 		<ul ng-repeat="result in run.results">
 			<li><b>{{result.task.name}}</b></li>
-			<li>Started: {{result.start}}</li>
+			<li>Started: {{result.start | date:'medium'}}</li>
 			<li ng-hide="result.end">This task is still running</li>
-			<li ng-show="result.end">Ended: {{result.end}}</li>
+			<li ng-show="result.end">Ended: {{result.end | date:'medium'}}</li>
 			<li>Duration: {{result.end - result.start}}</li>
 			<li ng-show="result.error">{{result.error }}</li>
 			<li ng-hide="result.output">No Output from this Task</li>
