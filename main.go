@@ -7,9 +7,8 @@ import (
 
 	"github.com/gorilla/mux"
 	. "github.com/jakecoffman/gorunner/service"
+	"gopkg.in/gcfg.v1"
 )
-
-const port = "localhost:8090"
 
 var routes = []struct {
 	route   string
@@ -44,13 +43,25 @@ var routes = []struct {
 	{"/triggers/{trigger}/jobs", listJobsForTrigger, "GET"},
 }
 
+// Represent the settings file
+type Settings struct {
+	Server struct {
+		Port string
+	}
+}
+
 type ctx struct {
+	settings    *Settings
 	hub         *Hub
 	executor    *Executor
 	jobList     *JobList
 	taskList    *TaskList
 	triggerList *TriggerList
 	runList     *RunList
+}
+
+func (t ctx) Settings() *Settings {
+	return t.settings
 }
 
 func (t ctx) Hub() *Hub {
@@ -78,6 +89,7 @@ func (t ctx) RunList() *RunList {
 }
 
 type context interface {
+	Settings() *Settings
 	Hub() *Hub
 	Executor() *Executor
 	JobList() *JobList
@@ -103,6 +115,17 @@ func main() {
 	wd, _ := os.Getwd()
 	log.Println("Working directory", wd)
 
+	// Load settings
+	var settingsPath string = "./config.ini"
+	if len(os.Args) > 1 {
+		settingsPath = os.Args[1:][0]
+	}
+	var settings Settings
+	err := gcfg.ReadFileInto(&settings, settingsPath)
+	if err != nil {
+		panic(err)
+	}
+
 	jobList := NewJobList()
 	taskList := NewTaskList()
 	triggerList := NewTriggerList()
@@ -118,7 +141,7 @@ func main() {
 
 	executor := NewExecutor(jobList, taskList, runList)
 
-	appContext := &ctx{hub, executor, jobList, taskList, triggerList, runList}
+	appContext := &ctx{&settings, hub, executor, jobList, taskList, triggerList, runList}
 
 	r := mux.NewRouter()
 
@@ -131,6 +154,6 @@ func main() {
 		r.Handle(detail.route, appHandler{appContext, detail.handler}).Methods(detail.method)
 	}
 
-	log.Println("Running on " + port)
-	http.ListenAndServe(port, r)
+	log.Println("Running on " + settings.Server.Port)
+	http.ListenAndServe(settings.Server.Port, r)
 }
