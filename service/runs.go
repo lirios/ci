@@ -130,7 +130,7 @@ func (l *RunList) execute(r *Run) {
 		shell, commandArg := getShell()
 		cmd := exec.Command(shell, commandArg, task.Script)
 
-		cmd.Env = append(cmd.Env, "UUID=" + r.UUID)
+		cmd.Env = append(cmd.Env, "UUID="+r.UUID)
 
 		outPipe, err := cmd.StdoutPipe()
 		if err != nil {
