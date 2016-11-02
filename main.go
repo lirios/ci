@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	. "github.com/jakecoffman/gorunner/service"
+	. "github.com/lirios/ci/service"
 	"gopkg.in/gcfg.v1"
 )
 

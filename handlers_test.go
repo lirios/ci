@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/jakecoffman/gorunner/service"
+	"github.com/lirios/ci/service"
 )
 
 func TestResponses(t *testing.T) {

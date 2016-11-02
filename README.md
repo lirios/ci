@@ -1,7 +1,7 @@
 gorunner
 ========
 
-[![Build Status](https://secure.travis-ci.org/jakecoffman/gorunner.png?branch=master)](http://travis-ci.org/jakecoffman/gorunner)
+[![Build Status](https://secure.travis-ci.org/lirios/ci.png?branch=develop)](http://travis-ci.org/lirios/ci)
 
 gorunner is an attempt to create a continuous integration web server written in Golang.
 
@@ -12,8 +12,8 @@ Installation instructions
 
 Assuming $GOPATH/bin is on your path:
 
-	go get github.com/jakecoffman/gorunner
-	cd $GOPATH/src/github.com/jakecoffman/gorunner
+	go get github.com/lirios/ci
+	cd $GOPATH/src/github.com/lirios/ci
 	gorunner
 
 Technologies
@@ -33,4 +33,4 @@ Go's ability to handle many connections would be beneficial for:
 * connecting to a cluster of gorunner servers
 * live updates to builds in the UI via websockets, etc
 
-![gorunner](https://raw.githubusercontent.com/jakecoffman/gorunner/master/promo.png "gorunner")
+![gorunner](https://raw.githubusercontent.com/lirios/ci/develop/promo.png "gorunner")
