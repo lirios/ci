@@ -1,0 +1,54 @@
+{
+	"ImportPath": "github.com/lirios/ci",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.1-27-g757bef9",
+			"Rev": "757bef944d0f21880861c2dd9c871ca543023cba"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Comment": "v1.0.0-32-g0b847f2",
+			"Rev": "0b847f2facc24ec406130a05bb1bb72d41993b05"
+		},
+		{
+			"ImportPath": "github.com/jakecoffman/cron",
+			"Comment": "v1-5-g57ac995",
+			"Rev": "57ac9950da80b6e2c12df9042429278cf8c729eb"
+		},
+		{
+			"ImportPath": "github.com/nu7hatch/gouuid",
+			"Rev": "179d4d0c4d8d407a32af483c2354df1d2c91e6c3"
+		},
+		{
+			"ImportPath": "gopkg.in/gcfg.v1",
+			"Comment": "v1.2.0",
+			"Rev": "27e4946190b4a327b539185f2b5b1f7c84730728"
+		},
+		{
+			"ImportPath": "gopkg.in/gcfg.v1/scanner",
+			"Comment": "v1.2.0",
+			"Rev": "27e4946190b4a327b539185f2b5b1f7c84730728"
+		},
+		{
+			"ImportPath": "gopkg.in/gcfg.v1/token",
+			"Comment": "v1.2.0",
+			"Rev": "27e4946190b4a327b539185f2b5b1f7c84730728"
+		},
+		{
+			"ImportPath": "gopkg.in/gcfg.v1/types",
+			"Comment": "v1.2.0",
+			"Rev": "27e4946190b4a327b539185f2b5b1f7c84730728"
+		},
+		{
+			"ImportPath": "gopkg.in/warnings.v0",
+			"Comment": "v0.1.1",
+			"Rev": "8a331561fe74dadba6edfc59f3be66c22c3b065d"
+		}
+	]
+}
