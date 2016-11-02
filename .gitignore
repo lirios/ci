@@ -1,7 +1,4 @@
+/data
 *.json
-
-/.idea
-
-/*.iml
-
-/*.exe
+ci
+config.ini
