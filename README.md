@@ -16,6 +16,25 @@ Assuming $GOPATH/bin is on your path:
 	cd $GOPATH/src/github.com/lirios/ci
 	gorunner
 
+## Configuration
+
+Before running you need to create a `config.ini` file in the same
+directory where the executable will be.
+
+Here's an example:
+
+```
+[Server]
+Port=localhost:8090
+DbRootPath=data/
+OutputPath=output/
+```
+
+With this configuration the CI server will bind to the `8090` port
+on `localhost` and will save data files into the `data/` directory.
+
+Artifacts and logs will be saved under the `output/` tree.
+
 Technologies
 ----
 
