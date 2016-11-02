@@ -18,7 +18,7 @@
 			<li>Duration: {{result.end - result.start}}</li>
 			<li ng-show="result.error">{{result.error }}</li>
 			<li ng-hide="result.logfilename">No log from this task</li>
-			<li ng-show="result.logfilename"><a href="/files/logs/{{result.logfilename}}">{{result.logfilename}}</a></li>
+			<li ng-show="result.logfilename"><a href="/files/logs/{{run.uuid}}/{{result.logfilename}}">{{result.logfilename}}</a></li>
 		</ul>
 	</li>
 </ul>

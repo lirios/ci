@@ -103,7 +103,7 @@ func (l RunList) GetRecent(offset, length int) []elementer {
 	return runs
 }
 
-func (j *RunList) AddRun(UUID string, logPath string, job Job, tasks []Task) error {
+func (j *RunList) AddRun(UUID string, logRootPath string, job Job, tasks []Task) error {
 	run := Run{UUID: UUID, Job: job, Tasks: tasks, Start: time.Now(), Status: "New"}
 	// check to make sure that UUID doesn't already exist
 	var found bool = false
@@ -120,6 +120,8 @@ func (j *RunList) AddRun(UUID string, logPath string, job Job, tasks []Task) err
 
 	// add the run to the list and execute
 	j.elements = append(j.elements, run)
+	logPath := filepath.Join(logRootPath, run.ID())
+	os.MkdirAll(logPath, os.ModePerm)
 	go j.execute(logPath, &run)
 	j.save()
 	return nil
@@ -128,7 +130,7 @@ func (j *RunList) AddRun(UUID string, logPath string, job Job, tasks []Task) err
 func (l *RunList) execute(logPath string, r *Run) {
 	r.Status = "Running"
 	for _, task := range r.Tasks {
-		result := &Result{Start: time.Now(), LogPath: logPath, LogFileName: r.ID() + ".log", Task: task}
+		result := &Result{Start: time.Now(), LogPath: logPath, LogFileName: task.ID() + ".log", Task: task}
 		r.Results = append(r.Results, result)
 		l.Update(*r)
 		shell, commandArg := getShell()
