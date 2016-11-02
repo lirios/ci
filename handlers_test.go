@@ -26,6 +26,6 @@ func TestResponses(t *testing.T) {
 	status, _ := listJobs(c, w, r)
 
 	if status != http.StatusOK {
-		t.Errorf("Expected %v, %v; got %v, %v", http.StatusOK, status)
+		t.Errorf("Expected %v; got %v", http.StatusOK, status)
 	}
 }
