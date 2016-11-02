@@ -9,7 +9,7 @@ type Settings struct {
 		OutputPath string
 	}
 	Slack struct {
-		Token   string
-		Channel string
+		WebHookURL string
+		Channel    string
 	}
 }

@@ -4,19 +4,17 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/nlopes/slack"
+	"github.com/ashwanthkumar/slack-go-webhook"
 )
 
 type Notifier struct {
 	settings *Settings
-	api      *slack.Client
 	Queue    chan *Run
 }
 
 func NewNotifier(settings *Settings) *Notifier {
 	return &Notifier{
 		settings,
-		slack.New(settings.Slack.Token),
 		make(chan *Run),
 	}
 }
@@ -25,6 +23,7 @@ func (n *Notifier) NotifierLoop() {
 	for {
 		select {
 		case r := <-n.Queue:
+			title := fmt.Sprintf("Run <%s/#/runs/%s|%s>", n.settings.Server.URL, r.ID(), r.ID())
 			text := fmt.Sprintf("Run <%s/#/runs/%s|%s>: %s in %s", n.settings.Server.URL, r.ID(), r.ID(), r.Status, r.End.Sub(r.Start).String())
 			var color string
 			if r.Status == "Done" {
@@ -32,18 +31,25 @@ func (n *Notifier) NotifierLoop() {
 			} else {
 				color = "#F44336"
 			}
-			params := slack.PostMessageParameters{}
 			attachment := slack.Attachment{
-				Color: color,
-				Text:  text,
+				PreText:  &text,
+				Fallback: &text,
+				Color:    &color,
 			}
-			params.Attachments = []slack.Attachment{attachment}
-			channelID, timestamp, err := n.api.PostMessage(n.settings.Slack.Channel, "", params)
+			attachment.AddField(slack.Field{Title: "Status", Value: r.Status})
+			attachment.AddField(slack.Field{Title: "Start", Value: r.Start.String()})
+			attachment.AddField(slack.Field{Title: "End", Value: r.End.String()})
+			payload := slack.Payload{
+				Text:        title,
+				Channel:     n.settings.Slack.Channel,
+				Username:    "Liri CI",
+				Attachments: []slack.Attachment{attachment},
+			}
+			err := slack.Send(n.settings.Slack.WebHookURL, "", payload)
 			if err != nil {
 				log.Printf("failed to send notification: %s\n", err)
 				break
 			}
-			log.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
 		}
 	}
 }

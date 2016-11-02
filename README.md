@@ -31,8 +31,8 @@ DbRootPath=data/
 OutputPath=output/
 
 [Slack]
-Token=XXX
-Channel=events
+WebHookURL=XXX
+Channel=#events
 ```
 
 With this configuration the CI server will bind to the `8090` port
@@ -40,7 +40,7 @@ on `localhost` and will save data files into the `data/` directory.
 
 Artifacts and logs will be saved under the `output/` tree.
 
-Slack notifications will go into the `events` channel.
+Slack notifications will go into the `#events` channel.
 
 Technologies
 ----
