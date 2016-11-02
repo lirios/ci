@@ -5,6 +5,13 @@ language: go
 services:
   - docker
 
+env:
+  global:
+    # BINTRAY_USER
+    - secure: "FeFsWfxv5jq3f2HfXymu5ehhvnWxiKlD/V+ClDB3McBYbjpda+O9R+C+rUsyakFnWQfHk4kSZwouTJ9s0fBaVa0UqLRGlDVuDm0q3PiVsEHj+xoY4Ub0ui8m8obiRzmPtcnAcf9XdDxJB0TdPcKEc75aJ7oAH+u7rSmoO7Dzu/FqFvpvlIVFPXgHJVKdvpZmLXgjH77pNaJHJnVevXnSOtZURl4E1icJEcdHKyUkEWOiF0VwySJFmDPiCzF7Hik8JK2K4TrhHzrP5tMQyp8G71DqT2KbCmI5LOLgEBfcax5YiHpc8h+7/+c3Hgi2ChyztlT0Qcr2EQN6yaf2VqxLHMVFKYZXUDekw0lT3/iLhi5jOUpIVTTs9M1dXfUYTYH6PfizvMU50h5FX0E8AGErxtJLtFpCG+9qd7Oq3/9eZb3nLQzKOmvp/ZxuSkGF0aoB4p1SNRUdy7bGJdoVvhomBKVRRoo6u0ijO09f7o8hDsFGVFirlKMcT68ahr+rQc72bChFyAc4djjieEUozvljtES4xEp+lTl/On4nYurlJPE51uqg+tZOrFEKxbJcxRLxeNFFCwGkYx/4qffBihZwuknLJyeBm7jbmNQmviH8xKlfeDHkgvOeBrwO6iBb+llD2HFTqG6+aRIgg43c60d536Vg2nXJbnTTqPcNde1FZ3A="
+    # BINTRAY_API_KEY
+    - secure: "TszFqy/C2xytk4Paidqc2iLU8SI/5m+2EX4E88ybh63KlYLybrQGdDAwDft5mm+1Oicq1rfNioOJhofE95BG9WBBlc4i0IzrCqv0Tmg8f0v97ILtDwO7+M6R2GZmtEw6GvYMI9ku9R+c8iFthp46o9ZeWmzJ9UbGBFAE5SzPZyK1lViMiZVW9lgTPyjppm5gwU5Slg/LdFhnUtOgKqHir/j39yymn5V5ze3JKRNEBHs1NoBqN1UsPZ2gUwKzXIligCmf2qzbGOHFP6M033NwWpFg8sifFxQA8USQnGoE8/tNlU6n5k7loaqGHm+ocf90ZbynRrH7NKIUXbL1g3BZz3iZXQNeV1yV3H/Ppte5nXzBdL9c23P8r05RyvIjbRzoLn4ETe+Q5lv+iu61q5nmXHOoNDdTaqtlpY47bXvka2tDMNw1dzs12BtWi5Z9B3dw1Cd0/VbvGTNDoAwLhitPPGZHI1VzfPOuUqhj9KiPMzIU+DKBTqtlPO15JwCyq1lQEARvn0wcATsT72itLgQrOfFWDcCC0cUuKMgDxLEcJWw3PqH7onDLtV3lP4XpAeUqlFzUxPGobXjfccqVKtm2XBtjT765bffHiCR7G/7RRMw57kPnequw/+ryc+JrEYGtgaaioPajbeZCN/u2+yk0b+e1ULrgJ7CGhaCfEe/Qrrg="
+
 go:
   - 1.7
 
@@ -16,6 +23,14 @@ before_script:
 script:
   - go build ./...
   - go test -v
+
+deploy:
+  provider: script
+  script: ./bintray.sh
+  on:
+    branch: master
+    condition: "$TRAVIS_GO_VERSION == 1.7*"
+  skip_cleanup: true
 
 notifications:
   email: false
