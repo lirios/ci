@@ -25,15 +25,22 @@ Here's an example:
 
 ```
 [Server]
+URL=https://www.somewebsite.com
 Port=localhost:8090
 DbRootPath=data/
 OutputPath=output/
+
+[Slack]
+Token=XXX
+Channel=events
 ```
 
 With this configuration the CI server will bind to the `8090` port
 on `localhost` and will save data files into the `data/` directory.
 
 Artifacts and logs will be saved under the `output/` tree.
+
+Slack notifications will go into the `events` channel.
 
 Technologies
 ----

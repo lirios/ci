@@ -124,10 +124,13 @@ func main() {
 	os.MkdirAll(settings.Server.DbRootPath, os.ModePerm)
 	os.MkdirAll(filepath.Join(settings.Server.OutputPath, "files", "logs"), os.ModePerm)
 
+	notifier := NewNotifier(&settings)
+	go notifier.NotifierLoop()
+
 	jobList := NewJobList(settings.Server.DbRootPath)
 	taskList := NewTaskList(settings.Server.DbRootPath)
 	triggerList := NewTriggerList(settings.Server.DbRootPath)
-	runList := NewRunList(settings.Server.DbRootPath, jobList)
+	runList := NewRunList(settings.Server.DbRootPath, notifier, jobList)
 
 	jobList.Load()
 	taskList.Load()
@@ -137,7 +140,7 @@ func main() {
 	hub := NewHub(runList)
 	go hub.HubLoop()
 
-	executor := NewExecutor(&settings, jobList, taskList, runList)
+	executor := NewExecutor(&settings, notifier, jobList, taskList, runList)
 
 	appContext := &ctx{&settings, hub, executor, jobList, taskList, triggerList, runList}
 

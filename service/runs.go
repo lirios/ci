@@ -38,12 +38,14 @@ func (r Run) ID() string {
 
 type RunList struct {
 	list
-	jobList *JobList
+	notifier *Notifier
+	jobList  *JobList
 }
 
-func NewRunList(rootPath string, jobList *JobList) *RunList {
+func NewRunList(rootPath string, notifier *Notifier, jobList *JobList) *RunList {
 	return &RunList{
 		list{elements: []elementer{}, fileName: filepath.Join(rootPath, runsFile)},
+		notifier,
 		jobList,
 	}
 }
@@ -175,6 +177,7 @@ func (l *RunList) execute(logPath string, r *Run) {
 	j.Status = "Ok"
 	l.jobList.Update(job)
 	l.Update(*r)
+	l.notifier.Queue <- r
 }
 
 func (result *Result) muxIntoOutput(stdout io.ReadCloser, stderr io.ReadCloser, done *sync.WaitGroup) {
@@ -234,6 +237,7 @@ func reportRunError(l *RunList, r *Run, result *Result, err error) {
 	j := job.(Job)
 	j.Status = "Failing"
 	l.jobList.Update(job)
+	l.notifier.Queue <- r
 	return
 }
 

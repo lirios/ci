@@ -12,17 +12,19 @@ var triggers map[string]struct{}
 type Executor struct {
 	cron     *cronService.Cron
 	settings *Settings
+	notifier *Notifier
 	jobList  *JobList
 	taskList *TaskList
 	runList  *RunList
 }
 
-func NewExecutor(settings *Settings, jobList *JobList, taskList *TaskList, runList *RunList) *Executor {
+func NewExecutor(settings *Settings, notifier *Notifier, jobList *JobList, taskList *TaskList, runList *RunList) *Executor {
 	cron := cronService.New()
 	cron.Start()
 	return &Executor{
 		cron,
 		settings,
+		notifier,
 		jobList,
 		taskList,
 		runList,
