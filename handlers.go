@@ -196,9 +196,9 @@ func addRun(c context, w http.ResponseWriter, r *http.Request) (int, interface{}
 
 	var tasks []Task
 	for _, taskName := range j.Tasks {
-		task, err := c.TaskList().Get(taskName)
-		if err != nil {
-			panic(err)
+		task, err2 := c.TaskList().Get(taskName)
+		if err2 != nil {
+			panic(err2)
 		}
 		t := task.(Task)
 		tasks = append(tasks, t)
