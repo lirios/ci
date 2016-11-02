@@ -7,6 +7,11 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/ashwanthkumar/slack-go-webhook",
+			"Comment": "v0.1-7-g6174793",
+			"Rev": "617479350161ea9827ad9a093ab20ac86f67e288"
+		},
+		{
 			"ImportPath": "github.com/gorilla/mux",
 			"Comment": "v1.1-27-g757bef9",
 			"Rev": "757bef944d0f21880861c2dd9c871ca543023cba"
@@ -22,6 +27,10 @@
 			"Rev": "57ac9950da80b6e2c12df9042429278cf8c729eb"
 		},
 		{
+			"ImportPath": "github.com/moul/http2curl",
+			"Rev": "4e24498b31dba4683efb9d35c1c8a91e2eda28c8"
+		},
+		{
 			"ImportPath": "github.com/nlopes/slack",
 			"Comment": "v0.0.1-152-ge595e9d",
 			"Rev": "e595e9d8590a04ff76407e4e7d1791d25b095c66"
@@ -29,6 +38,15 @@
 		{
 			"ImportPath": "github.com/nu7hatch/gouuid",
 			"Rev": "179d4d0c4d8d407a32af483c2354df1d2c91e6c3"
+		},
+		{
+			"ImportPath": "github.com/parnurzeal/gorequest",
+			"Comment": "v0.2.14-20-gb894326",
+			"Rev": "b8943263f1ae87258d26a5c2181d1bc71deeddc0"
+		},
+		{
+			"ImportPath": "golang.org/x/net/publicsuffix",
+			"Rev": "4bb47a1098b37d69980d96237e2ae4ff56bb5a95"
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",
