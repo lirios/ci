@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"path/filepath"
 )
 
 type Task struct {
@@ -17,9 +18,9 @@ type TaskList struct {
 	list
 }
 
-func NewTaskList() *TaskList {
+func NewTaskList(rootPath string) *TaskList {
 	return &TaskList{
-		list{elements: []elementer{}, fileName: tasksFile},
+		list{elements: []elementer{}, fileName: filepath.Join(rootPath, tasksFile)},
 	}
 }
 

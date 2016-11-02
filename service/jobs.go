@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"path/filepath"
 )
 
 type Job struct {
@@ -50,9 +51,9 @@ type JobList struct {
 	list
 }
 
-func NewJobList() *JobList {
+func NewJobList(rootPath string) *JobList {
 	return &JobList{
-		list{elements: []elementer{}, fileName: jobsFile},
+		list{elements: []elementer{}, fileName: filepath.Join(rootPath, jobsFile)},
 	}
 }
 

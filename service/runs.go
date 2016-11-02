@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"sync"
 	"time"
 )
@@ -39,9 +40,9 @@ type RunList struct {
 	jobList *JobList
 }
 
-func NewRunList(jobList *JobList) *RunList {
+func NewRunList(rootPath string, jobList *JobList) *RunList {
 	return &RunList{
-		list{elements: []elementer{}, fileName: runsFile},
+		list{elements: []elementer{}, fileName: filepath.Join(rootPath, runsFile)},
 		jobList,
 	}
 }

@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"path/filepath"
 )
 
 type Trigger struct {
@@ -17,9 +18,9 @@ type TriggerList struct {
 	list
 }
 
-func NewTriggerList() *TriggerList {
+func NewTriggerList(rootPath string) *TriggerList {
 	return &TriggerList{
-		list{elements: []elementer{}, fileName: triggersFile},
+		list{elements: []elementer{}, fileName: filepath.Join(rootPath, triggersFile)},
 	}
 }
 

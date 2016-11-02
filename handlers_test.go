@@ -20,7 +20,7 @@ func TestResponses(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	jobList := service.NewJobList()
+	jobList := service.NewJobList("./")
 	c := ctx{jobList: jobList}
 
 	status, _ := listJobs(c, w, r)

@@ -46,7 +46,8 @@ var routes = []struct {
 // Represent the settings file
 type Settings struct {
 	Server struct {
-		Port string
+		Port       string
+		DbRootPath string
 	}
 }
 
@@ -126,10 +127,13 @@ func main() {
 		panic(err)
 	}
 
-	jobList := NewJobList()
-	taskList := NewTaskList()
-	triggerList := NewTriggerList()
-	runList := NewRunList(jobList)
+	// Create database directory
+	os.MkdirAll(settings.Server.DbRootPath, os.ModePerm)
+
+	jobList := NewJobList(settings.Server.DbRootPath)
+	taskList := NewTaskList(settings.Server.DbRootPath)
+	triggerList := NewTriggerList(settings.Server.DbRootPath)
+	runList := NewRunList(settings.Server.DbRootPath, jobList)
 
 	jobList.Load()
 	taskList.Load()
