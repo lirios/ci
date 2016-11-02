@@ -229,7 +229,7 @@ func listTasks(c context, w http.ResponseWriter, r *http.Request) (int, interfac
 func addTask(c context, w http.ResponseWriter, r *http.Request) (int, interface{}) {
 	payload := unmarshal(r.Body, "name", w)
 
-	err := c.TaskList().Append(Task{payload["name"], ""})
+	err := c.TaskList().Append(Task{Name: payload["name"], Script: ""})
 	if err != nil {
 		return http.StatusBadRequest, err.Error()
 	}
