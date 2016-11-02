@@ -22,8 +22,17 @@
 			"Rev": "57ac9950da80b6e2c12df9042429278cf8c729eb"
 		},
 		{
+			"ImportPath": "github.com/nlopes/slack",
+			"Comment": "v0.0.1-152-ge595e9d",
+			"Rev": "e595e9d8590a04ff76407e4e7d1791d25b095c66"
+		},
+		{
 			"ImportPath": "github.com/nu7hatch/gouuid",
 			"Rev": "179d4d0c4d8d407a32af483c2354df1d2c91e6c3"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "4bb47a1098b37d69980d96237e2ae4ff56bb5a95"
 		},
 		{
 			"ImportPath": "gopkg.in/gcfg.v1",
