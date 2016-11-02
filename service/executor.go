@@ -1,6 +1,8 @@
 package service
 
 import (
+	"path/filepath"
+
 	cronService "github.com/jakecoffman/cron"
 	"github.com/nu7hatch/gouuid"
 )
@@ -9,16 +11,18 @@ var triggers map[string]struct{}
 
 type Executor struct {
 	cron     *cronService.Cron
+	settings *Settings
 	jobList  *JobList
 	taskList *TaskList
 	runList  *RunList
 }
 
-func NewExecutor(jobList *JobList, taskList *TaskList, runList *RunList) *Executor {
+func NewExecutor(settings *Settings, jobList *JobList, taskList *TaskList, runList *RunList) *Executor {
 	cron := cronService.New()
 	cron.Start()
 	return &Executor{
 		cron,
+		settings,
 		jobList,
 		taskList,
 		runList,
@@ -58,7 +62,7 @@ func (e Executor) runnit(j Job) {
 		t := task.(Task)
 		tasks = append(tasks, t)
 	}
-	err = e.runList.AddRun(id.String(), j, tasks)
+	err = e.runList.AddRun(id.String(), filepath.Join(e.settings.Server.OutputPath, "files", "logs"), j, tasks)
 	if err != nil {
 		panic(err)
 	}

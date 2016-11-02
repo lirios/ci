@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
 	. "github.com/lirios/ci/service"
@@ -41,14 +42,6 @@ var routes = []struct {
 	{"/triggers/{trigger}", updateTrigger, "PUT"},
 	{"/triggers/{trigger}", deleteTrigger, "DELETE"},
 	{"/triggers/{trigger}/jobs", listJobsForTrigger, "GET"},
-}
-
-// Represent the settings file
-type Settings struct {
-	Server struct {
-		Port       string
-		DbRootPath string
-	}
 }
 
 type ctx struct {
@@ -127,8 +120,9 @@ func main() {
 		panic(err)
 	}
 
-	// Create database directory
+	// Create directories
 	os.MkdirAll(settings.Server.DbRootPath, os.ModePerm)
+	os.MkdirAll(filepath.Join(settings.Server.OutputPath, "files", "logs"), os.ModePerm)
 
 	jobList := NewJobList(settings.Server.DbRootPath)
 	taskList := NewTaskList(settings.Server.DbRootPath)
@@ -143,7 +137,7 @@ func main() {
 	hub := NewHub(runList)
 	go hub.HubLoop()
 
-	executor := NewExecutor(jobList, taskList, runList)
+	executor := NewExecutor(&settings, jobList, taskList, runList)
 
 	appContext := &ctx{&settings, hub, executor, jobList, taskList, triggerList, runList}
 
@@ -151,6 +145,7 @@ func main() {
 
 	// non REST routes
 	r.PathPrefix("/static/").Handler(http.FileServer(http.Dir("web/")))
+	r.PathPrefix("/files/").Handler(http.FileServer(http.Dir(settings.Server.OutputPath)))
 	r.HandleFunc("/", app).Methods("GET")
 	r.Handle("/ws", appHandler{appContext, wsHandler}).Methods("GET")
 

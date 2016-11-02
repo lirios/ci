@@ -14,11 +14,12 @@ import (
 )
 
 type Result struct {
-	Start  time.Time    `json:"start"`
-	End    time.Time    `json:"end"`
-	Task   Task         `json:"task"`
-	Output OutputHolder `json:"output"`
-	Error  string       `json:"error"`
+	Start       time.Time `json:"start"`
+	End         time.Time `json:"end"`
+	Task        Task      `json:"task"`
+	LogPath     string    `json:"logpath"`
+	LogFileName string    `json:"logfilename"`
+	Error       string    `json:"error"`
 }
 
 type Run struct {
@@ -100,7 +101,7 @@ func (l RunList) GetRecent(offset, length int) []elementer {
 	return runs
 }
 
-func (j *RunList) AddRun(UUID string, job Job, tasks []Task) error {
+func (j *RunList) AddRun(UUID string, logPath string, job Job, tasks []Task) error {
 	run := Run{UUID: UUID, Job: job, Tasks: tasks, Start: time.Now(), Status: "New"}
 	// check to make sure that UUID doesn't already exist
 	var found bool = false
@@ -117,15 +118,15 @@ func (j *RunList) AddRun(UUID string, job Job, tasks []Task) error {
 
 	// add the run to the list and execute
 	j.elements = append(j.elements, run)
-	go j.execute(&run)
+	go j.execute(logPath, &run)
 	j.save()
 	return nil
 }
 
-func (l *RunList) execute(r *Run) {
+func (l *RunList) execute(logPath string, r *Run) {
 	r.Status = "Running"
 	for _, task := range r.Tasks {
-		result := &Result{Start: time.Now(), Task: task}
+		result := &Result{Start: time.Now(), LogPath: logPath, LogFileName: r.ID() + ".log", Task: task}
 		r.Results = append(r.Results, result)
 		l.Update(*r)
 		shell, commandArg := getShell()
@@ -178,19 +179,24 @@ func (l *RunList) execute(r *Run) {
 
 func (result *Result) muxIntoOutput(stdout io.ReadCloser, stderr io.ReadCloser, done *sync.WaitGroup) {
 	defer done.Done()
+	file, err := os.Create(filepath.Join(result.LogPath, result.LogFileName))
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
 	outLines := consumeLines(stdout)
 	errLines := consumeLines(stderr)
 	for outLines != nil || errLines != nil {
 		select {
 		case line, ok := <-outLines:
 			if ok {
-				result.Output.WriteString(line + "\n")
+				file.WriteString(line + "\n")
 			} else {
 				outLines = nil
 			}
 		case line, ok := <-errLines:
 			if ok {
-				result.Output.WriteString(line + "\n")
+				file.WriteString(line + "\n")
 			} else {
 				errLines = nil
 			}

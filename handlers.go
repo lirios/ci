@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -202,7 +203,7 @@ func addRun(c context, w http.ResponseWriter, r *http.Request) (int, interface{}
 		t := task.(Task)
 		tasks = append(tasks, t)
 	}
-	err = c.RunList().AddRun(id.String(), j, tasks)
+	err = c.RunList().AddRun(id.String(), filepath.Join(c.Settings().Server.OutputPath, "files", "logs"), j, tasks)
 	if err != nil {
 		return http.StatusInternalServerError, err.Error()
 	}
