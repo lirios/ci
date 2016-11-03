@@ -32,18 +32,15 @@ func (n *Notifier) NotifierLoop() {
 
 func (n *Notifier) notifySlack(r *Run) {
 	format := "Mon Jan _2, 2006 03:04 PM"
-	title := fmt.Sprintf("Job <%s/#/runs/%s|%s>", n.settings.Server.URL, r.ID(), r.Job.ID())
-	text := fmt.Sprintf("%s in %s", r.Status, r.End.Sub(r.Start).String())
+	title := fmt.Sprintf("Job <%s/#/runs/%s|%s> *%s* in %s", n.settings.Server.URL, r.ID(), r.Job.ID(), r.Status, r.End.Sub(r.Start).String())
 	var color string
 	if r.Status == "Done" {
-		color = "#4CAF50"
+		color = "good"
 	} else {
-		color = "#F44336"
+		color = "danger"
 	}
 	attachment := slack.Attachment{
-		PreText:  &text,
-		Fallback: &text,
-		Color:    &color,
+		Color: &color,
 	}
 	attachment.AddField(slack.Field{Title: "Status", Value: r.Status})
 	attachment.AddField(slack.Field{Title: "Total Start", Value: fmt.Sprintf("<!date^%d^{date_short} {time}|%s>", r.Start.Unix(), r.Start.Format(format))})
