@@ -22,7 +22,7 @@ var routes = []struct {
 	{"/jobs/{job}", deleteJob, "DELETE"},
 	{"/jobs/{job}/tasks", addTaskToJob, "POST"},
 	{"/jobs/{job}/tasks/{task}", removeTaskFromJob, "DELETE"},
-	{"/jobs/{job}/triggers/", addTriggerToJob, "POST"},
+	{"/jobs/{job}/triggers", addTriggerToJob, "POST"},
 	{"/jobs/{job}/triggers/{trigger}", removeTriggerFromJob, "DELETE"},
 
 	{"/tasks", listTasks, "GET"},
