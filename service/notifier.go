@@ -23,7 +23,8 @@ func (n *Notifier) NotifierLoop() {
 	for {
 		select {
 		case r := <-n.Queue:
-			title := fmt.Sprintf("Run <%s/#/runs/%s|%s>", n.settings.Server.URL, r.ID(), r.Job.ID())
+			format := "Sat Mar  7 11:06:39 PST 2015"
+			title := fmt.Sprintf("Job <%s/#/runs/%s|%s>", n.settings.Server.URL, r.ID(), r.Job.ID())
 			text := fmt.Sprintf("%s in %s", r.Status, r.End.Sub(r.Start).String())
 			var color string
 			if r.Status == "Done" {
@@ -37,14 +38,14 @@ func (n *Notifier) NotifierLoop() {
 				Color:    &color,
 			}
 			attachment.AddField(slack.Field{Title: "Status", Value: r.Status})
-			attachment.AddField(slack.Field{Title: "Start", Value: r.Start.String()})
-			attachment.AddField(slack.Field{Title: "End", Value: r.End.String()})
+			attachment.AddField(slack.Field{Title: "Total Start", Value: r.Start.Format(format)})
+			attachment.AddField(slack.Field{Title: "Total End", Value: r.End.Format(format)})
 			for _, result := range r.Results {
 				var errmsg string
 				if result.Error != "" {
 					errmsg = fmt.Sprintf("\nError: %s", result.Error)
 				}
-				attachment.AddField(slack.Field{Title: "Task " + result.Task.Name, Value: fmt.Sprintf("Start: %s, End: %s%s", result.Start.String(), result.End.String(), errmsg)})
+				attachment.AddField(slack.Field{Title: "Task " + result.Task.Name, Value: fmt.Sprintf("Start: %s\nEnd: %s%s", result.Start.Format(format), result.End.Format(format), errmsg)})
 			}
 			payload := slack.Payload{
 				Text:        title,
