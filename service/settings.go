@@ -9,6 +9,7 @@ type Settings struct {
 		OutputPath string
 	}
 	Slack struct {
+		Enabled    bool
 		WebHookURL string
 		Channel    string
 	}
