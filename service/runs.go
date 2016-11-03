@@ -246,7 +246,7 @@ func reportRunError(l *RunList, r *Run, result *Result, err error) {
 func getShell() (string, string) {
 	var shell = os.Getenv("SHELL")
 	if shell == "" {
-		if _, err := os.Stat("/bin/bash"); err != nil {
+		if _, err := os.Stat("/bin/bash"); err == nil {
 			shell = "/bin/bash"
 		}
 	}
