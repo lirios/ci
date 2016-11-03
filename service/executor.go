@@ -57,9 +57,9 @@ func (e Executor) runnit(j Job) {
 	}
 	var tasks []Task
 	for _, taskName := range j.Tasks {
-		task, err := e.taskList.Get(taskName)
-		if err != nil {
-			panic(err)
+		task, err2 := e.taskList.Get(taskName)
+		if err2 != nil {
+			panic(err2)
 		}
 		t := task.(Task)
 		tasks = append(tasks, t)

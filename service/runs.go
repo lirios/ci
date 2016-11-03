@@ -84,7 +84,7 @@ func (l *RunList) Swap(i, j int) {
 	l.elements[i], l.elements[j] = l.elements[j], l.elements[i]
 }
 
-func (l RunList) GetRecent(offset, length int) []elementer {
+func (l *RunList) GetRecent(offset, length int) []elementer {
 	runs := l.elements
 	if offset != -1 {
 		if offset >= len(runs) {
@@ -156,13 +156,13 @@ func (l *RunList) execute(logPath string, r *Run) {
 		outputWg.Add(1)
 		go result.muxIntoOutput(outPipe, errPipe, &outputWg)
 
-		if err := cmd.Start(); err != nil {
-			reportRunError(l, r, result, err)
+		if err2 := cmd.Start(); err2 != nil {
+			reportRunError(l, r, result, err2)
 			return
 		}
 		outputWg.Wait()
-		if err := cmd.Wait(); err != nil {
-			reportRunError(l, r, result, err)
+		if err2 := cmd.Wait(); err2 != nil {
+			reportRunError(l, r, result, err2)
 			return
 		}
 		result.End = time.Now()

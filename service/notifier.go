@@ -46,11 +46,11 @@ func (n *Notifier) notifySlack(r *Run) {
 		Color:    &color,
 	}
 	attachment.AddField(slack.Field{Title: "Status", Value: r.Status})
-	attachment.AddField(slack.Field{Title: "Total Start", Value: fmt.Sprintf("<!date^%s^{date_short} {time}|%s>", r.Start.Unix(), r.Start.Format(format))})
-	attachment.AddField(slack.Field{Title: "Total End", Value: fmt.Sprintf("<!date^%s^{date_short} {time}|%s>", r.End.Unix(), r.End.Format(format))})
+	attachment.AddField(slack.Field{Title: "Total Start", Value: fmt.Sprintf("<!date^%d^{date_short} {time}|%s>", r.Start.Unix(), r.Start.Format(format))})
+	attachment.AddField(slack.Field{Title: "Total End", Value: fmt.Sprintf("<!date^%d^{date_short} {time}|%s>", r.End.Unix(), r.End.Format(format))})
 	for _, result := range r.Results {
-		fieldText := fmt.Sprintf("Start: <!date^%s^{date_short} {time}|%s>\n", result.Start.Unix(), result.Start.Format(format))
-		fieldText += fmt.Sprintf("End: <!date^%s^{date_short} {time}|%s>\n", result.End.Unix(), result.End.Format(format))
+		fieldText := fmt.Sprintf("Start: <!date^%d^{date_short} {time}|%s>\n", result.Start.Unix(), result.Start.Format(format))
+		fieldText += fmt.Sprintf("End: <!date^%d^{date_short} {time}|%s>", result.End.Unix(), result.End.Format(format))
 		if result.Error != "" {
 			fieldText += fmt.Sprintf("\nError: %s", result.Error)
 		}
