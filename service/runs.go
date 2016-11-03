@@ -137,6 +137,9 @@ func (l *RunList) execute(logPath string, r *Run) {
 		cmd := exec.Command(shell, commandArg, task.Script)
 
 		cmd.Env = append(cmd.Env, "LIRICI_UUID="+r.UUID)
+		cmd.Env = append(cmd.Env, "LIRICI_JOB_NAME="+r.Job.ID())
+		cmd.Env = append(cmd.Env, "LIRICI_TASK_NAME="+task.Name)
+		cmd.Env = append(cmd.Env, "LIRICI_OUTPUT_DIR="+l.notifier.settings.Server.OutputPath)
 
 		outPipe, err := cmd.StdoutPipe()
 		if err != nil {
