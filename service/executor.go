@@ -1,10 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"path/filepath"
 
-	cronService "github.com/jakecoffman/cron"
 	"github.com/nu7hatch/gouuid"
+	cronService "gopkg.in/robfig/cron.v2"
 )
 
 var triggers map[string]struct{}
@@ -16,6 +17,7 @@ type Executor struct {
 	jobList  *JobList
 	taskList *TaskList
 	runList  *RunList
+	entries  map[string]cronService.EntryID
 }
 
 func NewExecutor(settings *Settings, notifier *Notifier, jobList *JobList, taskList *TaskList, runList *RunList) *Executor {
@@ -28,15 +30,22 @@ func NewExecutor(settings *Settings, notifier *Notifier, jobList *JobList, taskL
 		jobList,
 		taskList,
 		runList,
+		make(map[string]cronService.EntryID),
 	}
 }
 
 func (e Executor) ArmTrigger(t Trigger) {
-	e.cron.AddFunc(t.Schedule, func() { e.findAndRun(t) }, t.Name)
+	entryID, err := e.cron.AddFunc(t.Schedule, func() { e.findAndRun(t) })
+	if err == nil {
+		e.entries[t.Name] = entryID
+	} else {
+		fmt.Printf("Error arming trigger %s: %v", t.Name, err)
+	}
 }
 
 func (e Executor) DisarmTrigger(name string) {
-	e.cron.RemoveJob(name)
+	e.cron.Remove(e.entries[name])
+	delete(e.entries, name)
 	println("Trigger has been removed")
 }
 

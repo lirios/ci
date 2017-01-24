@@ -22,11 +22,6 @@
 			"Rev": "0b847f2facc24ec406130a05bb1bb72d41993b05"
 		},
 		{
-			"ImportPath": "github.com/jakecoffman/cron",
-			"Comment": "v1-5-g57ac995",
-			"Rev": "57ac9950da80b6e2c12df9042429278cf8c729eb"
-		},
-		{
 			"ImportPath": "github.com/moul/http2curl",
 			"Rev": "4e24498b31dba4683efb9d35c1c8a91e2eda28c8"
 		},
@@ -71,6 +66,11 @@
 			"ImportPath": "gopkg.in/gcfg.v1/types",
 			"Comment": "v1.2.0",
 			"Rev": "27e4946190b4a327b539185f2b5b1f7c84730728"
+		},
+		{
+			"ImportPath": "gopkg.in/robfig/cron.v2",
+			"Comment": "v1-11-gbe2e0b0",
+			"Rev": "be2e0b0deed5a68ffee390b4583a13aff8321535"
 		},
 		{
 			"ImportPath": "gopkg.in/warnings.v0",
