@@ -2,6 +2,7 @@ gorunner
 ========
 
 [![Build Status](https://secure.travis-ci.org/lirios/ci.png?branch=develop)](http://travis-ci.org/lirios/ci)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lirios/ci)](https://goreportcard.com/report/github.com/lirios/ci)
 
 gorunner is an attempt to create a continuous integration web server written in Golang.
 
